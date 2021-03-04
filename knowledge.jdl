@@ -1,0 +1,264 @@
+application {
+	config {
+		baseName knowledge
+		packageName knowledge
+		buildTool gradle
+		clientFramework react
+		useSass true
+		prodDatabaseType mariadb
+		enableSwaggerCodegen true
+		languages [en, sv]
+		jhiPrefix app
+		testFrameworks [protractor, cucumber, gatling]
+	}
+	entities *
+}
+// Active Status Reference Data
+enum ActiveStatus {
+	ACTIVE
+	INACTIVE
+}
+
+// KnowlDevActivity Reference Data
+enum KnowlDevActivityType {
+	NONE
+}
+enum KnowlDevActivityStatus {
+	NONE
+}
+entity KnowlDevActivity{
+	type KnowlDevActivityType required
+	status KnowlDevActivityStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlDevArtifact Reference Data
+enum KnowlDevArtifactType {
+	NONE
+}
+enum KnowlDevArtifactStatus {
+	NONE
+}
+entity KnowlDevArtifact{
+	type KnowlDevArtifactType required
+	status KnowlDevArtifactStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlDevTask Reference Data
+enum KnowlDevTaskType {
+	NONE
+}
+enum KnowlDevTaskStatus {
+	NONE
+}
+entity KnowlDevTask{
+	type KnowlDevTaskType required
+	status KnowlDevTaskStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlDevCheck Reference Data
+enum KnowlDevCheckType {
+	NONE
+}
+enum KnowlDevCheckStatus {
+	NONE
+}
+entity KnowlDevCheck{
+	type KnowlDevCheckType required
+	status KnowlDevCheckStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlArchtComponent Reference Data
+enum KnowlArchtComponentType {
+	NONE
+}
+enum KnowlArchtComponentStatus {
+	NONE
+}
+entity KnowlArchtComponent{
+	type KnowlArchtComponentType required
+	status KnowlArchtComponentStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlArchtFramework Reference Data
+enum KnowlArchtFrameworkType {
+	NONE
+}
+enum KnowlArchtFrameworkStatus {
+	NONE
+}
+entity KnowlArchtFramework{
+	type KnowlArchtFrameworkType required
+	status KnowlArchtFrameworkStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlArchtPlatform Reference Data
+enum KnowlArchtPlatformType {
+	NONE
+}
+enum KnowlArchtPlatformStatus {
+	NONE
+}
+entity KnowlArchtPlatform{
+	type KnowlArchtPlatformType required
+	status KnowlArchtPlatformStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlDevTool Reference Data
+enum KnowlDevToolType {
+	NONE
+}
+enum KnowlDevToolStatus {
+	NONE
+}
+entity KnowlDevTool{
+	type KnowlDevToolType required
+	status KnowlDevToolStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlDevPattern Reference Data
+enum KnowlDevPatternType {
+	NONE
+}
+enum KnowlDevPatternStatus {
+	NONE
+}
+entity KnowlDevPattern{
+	type KnowlDevPatternType required
+	status KnowlDevPatternStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+
+
+
+// KnowlDevFramework Reference Data
+enum KnowlDevFrameworkType {
+	NONE
+}
+enum KnowlDevFrameworkStatus {
+	NONE
+}
+entity KnowlDevFramework{
+	type KnowlDevFrameworkType required
+	status KnowlDevFrameworkStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+// KnowlDevLibrary Reference Data
+enum KnowlDevLibraryType {
+	NONE
+}
+enum KnowlDevLibraryStatus {
+	NONE
+}
+entity KnowlDevLibrary{
+	type KnowlDevLibraryType required
+	status KnowlDevLibraryStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
+relationship OneToMany {
+	KnowlArchtComponent{activity(subject)} to KnowlDevActivity{component(subject)}
+	KnowlArchtPlatform{activity(subject)} to KnowlDevActivity{platform(subject) }
+	KnowlArchtFramework{activity(subject)} to KnowlDevActivity{framework(subject)}
+
+	KnowlDevActivity{artifact(subject)} to KnowlDevArtifact{activity(subject)}
+	KnowlDevArtifact{task(subject) } to KnowlDevTask{artifact(subject)}
+	KnowlDevTask{check(subject)} to KnowlDevCheck{task(subject)}
+
+	KnowlDevTask{tool(subject)} to KnowlDevTool{task(subject)}
+	KnowlDevTask{pattern(subject)} to KnowlDevPattern{task(subject)}
+	KnowlDevTask{framework(subject)} to KnowlDevFramework{task(subject)}
+	KnowlDevTask{library(subject)} to KnowlDevLibrary{task(subject)}
+
+
+}
+
+paginate * with infinite-scroll
+service * with serviceImpl
+dto * with mapstruct
