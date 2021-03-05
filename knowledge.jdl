@@ -242,23 +242,42 @@ entity KnowlDevLibrary{
 	active ActiveStatus required
 }
 
+// KnowlDevTerm Reference Data
+enum KnowlDevTermType {
+	NONE
+}
+enum KnowlDevTermStatus {
+	NONE
+}
+entity KnowlDevTerm{
+	type KnowlDevTermType required
+	status KnowlDevTermStatus required
+	subject String required unique
+	url String required
+	key String required unique
+	description String  required
+	level Integer required
+	content TextBlob
+	image ImageBlob
+	active ActiveStatus required
+}
+
 relationship OneToMany {
-	KnowlArchtComponent{activity(subject)} to KnowlDevActivity{component(subject)}
-	KnowlArchtPlatform{activity(subject)} to KnowlDevActivity{platform(subject) }
-	KnowlArchtFramework{activity(subject)} to KnowlDevActivity{framework(subject)}
+	KnowlArchtComponent{task(subject)} to KnowlDevTask{component(subject) required}
+	KnowlArchtPlatform{task(subject)} to KnowlDevTask{platform(subject) required}
+	KnowlArchtFramework{task(subject)} to KnowlDevTask{framework(subject) required}
+	KnowlDevActivity{task(subject)} to KnowlDevTask{activity(subject) required}
 
-	KnowlDevActivity{artifact(subject)} to KnowlDevArtifact{activity(subject)}
-	KnowlDevArtifact{task(subject) } to KnowlDevTask{artifact(subject)}
-	KnowlDevTask{check(subject)} to KnowlDevCheck{task(subject)}
-
-	KnowlDevTask{tool(subject)} to KnowlDevTool{task(subject)}
-	KnowlDevTask{pattern(subject)} to KnowlDevPattern{task(subject)}
-	KnowlDevTask{framework(subject)} to KnowlDevFramework{task(subject)}
-	KnowlDevTask{library(subject)} to KnowlDevLibrary{task(subject)}
-
+	KnowlDevTask{artifact(subject) required} to KnowlDevArtifact{task(subject) required}
+	KnowlDevTask{check(subject)} to KnowlDevCheck{task(subject) required}
+	KnowlDevTask{tool(subject)} to KnowlDevTool{task(subject) required}
+	KnowlDevTask{pattern(subject)} to KnowlDevPattern{task(subject) required}
+	KnowlDevTask{framework(subject)} to KnowlDevFramework{task(subject) required}
+	KnowlDevTask{library(subject)} to KnowlDevLibrary{task(subject) required}
+	KnowlDevTask{library(subject)} to KnowlDevTerm{task(subject) required}
 
 }
 
-paginate * with infinite-scroll
-service * with serviceImpl
-dto * with mapstruct
+paginate KnowlDevTask with infinite-scroll
+service KnowlDevTask with serviceImpl
+dto KnowlDevTask with mapstruct
